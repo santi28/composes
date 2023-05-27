@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx-data/vhost.d:/etc/nginx/vhost.d
+      - ./nginx-data/html:/usr/share/nginx/html
+      - ./nginx-data/conf.d:/etc/nginx/conf.d
+    restart: always
+    networks:
+      - proxy-tier
+  nginx-whoami:
+    image: jwilder/whoami
+    container_name: nginx-whoami
+    environment:
+      - VIRTUAL_HOST=whoami.santiagodenicolas.com
+    restart: always
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external: true
