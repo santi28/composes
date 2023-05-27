@@ -1,4 +1,8 @@
 # Generic data folders
 *data
+
 # Generic auth folders
 *auth
+
+# Environment variables & files
+.env*

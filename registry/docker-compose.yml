@@ -10,7 +10,7 @@ services:
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-      VIRTUAL_HOST: registry.loop.santiagodenicolas.com
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
       VIRUTAL_PORT: 5000
     networks:
       - proxy-tier
