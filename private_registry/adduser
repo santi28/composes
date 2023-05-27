@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Input of username and password
+read -p "Enter username: " username
+read -p "Enter password: " password
+
+# Create a auth folder if it doesn't exist
+if [ ! -d auth ]; then
+    mkdir auth
+fi
+
+# Create a htpasswd file if it doesn't exist
+if [ ! -f auth/htpasswd ]; then
+    touch auth/htpasswd
+fi
+
+# Verifies if username already exists
+if grep -q $username auth/htpasswd; then
+    echo "Username already exists"
+    exit 1
+fi
+
+# Append new username and password to htpasswd file
+htpasswd -b auth/htpasswd $username $password
