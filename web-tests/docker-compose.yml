@@ -2,22 +2,18 @@ version: '3.8'
 services:
   hello1:
     image: nginxdemos/hello
-    ports:
-      - 8080:80
     networks:
       - proxy-tier
     environment:
-      - VIRTUAL_HOST=loop.santiagodenicolas.com
-      - VIRTUAL_PATH=/
+      - VIRTUAL_HOST=${VHOST}
+      - VIRTUAL_PATH=${VPATH_HELLO1}
   hello2:
     image: nginxdemos/hello
-    ports:
-      - 8081:80
     networks:
       - proxy-tier
     environment:
-      - VIRTUAL_HOST=loop.santiagodenicolas.com
-      - VIRTUAL_PATH=/hello2
+      - VIRTUAL_HOST=${VHOST}
+      - VIRTUAL_PATH=${VPATH_HELLO2}
 
 networks:
   proxy-tier:

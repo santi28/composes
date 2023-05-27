@@ -6,9 +6,13 @@ services:
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+      VIRTUAL_HOST: ${VHOST}
+      VIRTUAL_PATH: ~ /v2.*
     volumes:
       - ./data-registry:/var/lib/registry
-      - ./auth:/auth
+      - ./data-auth:/auth
+    networks:
+      - proxy-tier
   ui:
     image: jc21/registry-ui
     environment:
@@ -16,17 +20,12 @@ services:
       - REGISTRY_HOST=registry:5000
       - REGISTRY_USER=${REGISTRY_USER}
       - REGISTRY_PASS=${REGISTRY_PASS}
-    links:
-      - registry
+      - VIRTUAL_HOST=${VHOST}
+      - VIRTUAL_PATH=/
     restart: on-failure
-  proxy:
-    image: jc21/registry-ui-proxy
-    ports:
-      - 80:80
-    depends_on:
-      - ui
-      - registry
-    links:
-      - ui
-      - registry
-    restart: on-failure
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external: true

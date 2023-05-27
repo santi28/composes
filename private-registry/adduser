@@ -5,17 +5,17 @@ read -p "Enter username: " username
 read -p "Enter password: " password
 
 # Create a auth folder if it doesn't exist
-if [ ! -d auth ]; then
-    mkdir auth
+if [ ! -d data-auth ]; then
+    mkdir data-auth
 fi
 
 # Create a htpasswd file if it doesn't exist
-if [ ! -f auth/htpasswd ]; then
-    touch auth/htpasswd
+if [ ! -f data-auth/htpasswd ]; then
+    touch data-auth/htpasswd
 fi
 
 # Verifies if username already exists
-if grep -q $username auth/htpasswd; then
+if grep -q $username data-auth/htpasswd; then
     echo "Username already exists"
     exit 1
 fi
@@ -23,4 +23,4 @@ fi
 # Adds username and password to htpasswd file
 docker run \
   --entrypoint htpasswd \
-  httpd:2 -Bbn $username $password >> auth/htpasswd
+  httpd:2 -Bbn $username $password >> data-auth/htpasswd
