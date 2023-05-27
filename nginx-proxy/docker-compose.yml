@@ -5,6 +5,7 @@ services:
     container_name: nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx-data/vhost.d:/etc/nginx/vhost.d
@@ -17,7 +18,7 @@ services:
     image: jwilder/whoami
     container_name: nginx-whoami
     environment:
-      - VIRTUAL_HOST=whoami.santiagodenicolas.com
+      - VIRTUAL_HOST=whoami.localhost
     restart: always
     networks:
       - proxy-tier

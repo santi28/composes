@@ -2,7 +2,15 @@ version: '3.8'
 services:
   registry:
     image: registry:2
-    ports:
-      - 5020:5000
+    restart: always
     volumes:
       - ./registry-data:/var/lib/registry
+    environment:
+      VIRTUAL_HOST: registry.loop.santiagodenicolas.com
+      VIRUTAL_PORT: 5000
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external: true
