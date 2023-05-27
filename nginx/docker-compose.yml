@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  nginx:
+    container_name: nginx
+    image: nginxproxy/nginx-proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - proxy-tier
+
+networks:
+  proxy-tier:
+    external: true
