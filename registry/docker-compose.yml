@@ -14,6 +14,22 @@ services:
       VIRTUAL_PATH: ~ /v2
       LETSENCRYPT_HOST: ${VIRTUAL_HOST}
       VIRUTAL_PORT: 5000
+      REGISTRY_STORAGE_DELETE_ENABLED: true
+    networks:
+      - proxy-tier
+  registry-ui:
+    image: jc21/registry-ui
+    environment:
+      REGISTRY_HOST: registry:5000
+      REGISTRY_STORAGE_DELETE_ENABLED: true
+      REGISTRY_USER: ${REGISTRY_USER}
+      REGISTRY_PASS: ${REGISTRY_PASS}
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${VIRTUAL_HOST}
+      VIRTUAL_PATH: /
+    links:
+      - registry
+    restart: on-failure
     networks:
       - proxy-tier
 
