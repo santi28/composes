@@ -8,9 +8,22 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx-data/certs:/etc/nginx/certs
       - ./nginx-data/vhost.d:/etc/nginx/vhost.d
       - ./nginx-data/html:/usr/share/nginx/html
       - ./nginx-data/conf.d:/etc/nginx/conf.d
+    restart: always
+    networks:
+      - proxy-tier
+  nginx-ssl:
+    image: nginxproxy/acme-companion
+    container_name: nginx-ssl
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    volumes_from:
+      - nginx-proxy
+    environment:
+      DEFAULT_EMAIL: santiago@denicolas.com.ar
     restart: always
     networks:
       - proxy-tier
