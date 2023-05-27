@@ -20,5 +20,7 @@ if grep -q $username auth/htpasswd; then
     exit 1
 fi
 
-# Append new username and password to htpasswd file
-htpasswd -b auth/htpasswd $username $password
+# Adds username and password to htpasswd file
+docker run \
+  --entrypoint htpasswd \
+  httpd:2 -Bbn $username $password >> auth/htpasswd
